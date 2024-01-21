@@ -1,11 +1,15 @@
 package ru.com.bulat.animationcompose.ui.theme.screen
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -50,9 +54,10 @@ fun Test() {
         val size by animateDpAsState(
             targetValue = if (isIncreased) 200.dp else 100.dp,
             label = "",
-            animationSpec = spring(
-                dampingRatio = Spring.DampingRatioHighBouncy,
-                stiffness = Spring.StiffnessLow
+            animationSpec = tween(
+                durationMillis = 2000,
+                easing = FastOutSlowInEasing,
+                delayMillis = 1000
             ),
 
         )
