@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import ru.com.bulat.animationcompose.ui.theme.AnimationComposeTheme
-import ru.com.bulat.animationcompose.ui.theme.screen.Test
+import ru.com.bulat.animationcompose.ui.theme.screen.AnimateContent
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Test()
+                    AnimateContent()
                 }
             }
         }
