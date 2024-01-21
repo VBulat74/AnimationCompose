@@ -1,6 +1,7 @@
 package ru.com.bulat.animationcompose.ui.theme.screen
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloat
@@ -31,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -52,7 +54,6 @@ fun Test() {
 
         val infiniteTransition = rememberInfiniteTransition()
 
-
         val size by infiniteTransition.animateFloat(
             initialValue = 200f,
             targetValue = 100f,
@@ -61,6 +62,19 @@ fun Test() {
                     durationMillis = 2000,
                 ),
                 repeatMode = RepeatMode.Reverse
+            ),
+            label = "",
+        )
+
+        val rotation by infiniteTransition.animateFloat(
+            initialValue = 0f,
+            targetValue = 360f,
+            animationSpec =infiniteRepeatable(
+                animation = tween(
+                    durationMillis = 2000,
+                    easing = LinearEasing,
+                ),
+                repeatMode = RepeatMode.Restart
             ),
             label = "",
         )
@@ -81,7 +95,7 @@ fun Test() {
         var isRounded by remember {
             mutableStateOf(false)
         }
-        val radius by animateIntAsState(targetValue = if (isRounded) 50 else 4)
+        val radius by animateIntAsState(targetValue = if (isRounded) 50 else 4, label = "")
 
         Button(
             modifier = Modifier.fillMaxWidth(),
@@ -93,7 +107,8 @@ fun Test() {
         }
         AnimatedContainer(
             text = "Shape",
-            radiusPercent = radius
+            radiusPercent = radius,
+            rotation = rotation
         )
 
         var isSelected by remember {
@@ -160,9 +175,11 @@ private fun AnimatedContainer(
     borderWith : Dp = 0.dp,
     color : Color = Color.Blue,
     alpha : Float = 1f,
+    rotation : Float = 0f,
 ) {
     Box(
         modifier = Modifier
+            .rotate(rotation)
             .alpha(alpha = alpha)
             .clip(RoundedCornerShape(radiusPercent))
             .border(width = borderWith, color = Color.Red)
