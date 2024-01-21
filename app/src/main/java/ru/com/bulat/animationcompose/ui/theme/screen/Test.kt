@@ -1,9 +1,13 @@
 package ru.com.bulat.animationcompose.ui.theme.screen
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -45,7 +49,16 @@ fun Test() {
             mutableStateOf(true)
         }
 
-        val size by animateDpAsState(targetValue = if (isIncreased) 200.dp else 100.dp)
+        val size by animateDpAsState(
+            targetValue = if (isIncreased) 200.dp else 100.dp,
+            label = "",
+            animationSpec = tween(
+                durationMillis = 2000,
+                easing = FastOutSlowInEasing,
+                delayMillis = 1000
+            ),
+
+        )
 
         Button(
             modifier = Modifier.fillMaxWidth(),
