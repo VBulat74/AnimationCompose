@@ -1,5 +1,11 @@
 package ru.com.bulat.animationcompose.ui.theme.screen
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AnimateContent() {
 
@@ -35,11 +42,30 @@ fun AnimateContent() {
         ) {
             Text(text = "Switch screens")
         }
-        if (isFirstScreenLaunched) {
-            Screen1()
-        } else {
-            Screen2()
+
+        AnimatedContent(
+            targetState = isFirstScreenLaunched,
+            label = "",
+            transitionSpec = {
+                slideInHorizontally(tween(
+                    durationMillis = 2000)
+                ) {
+                    it
+                } togetherWith slideOutHorizontally(tween(
+                    durationMillis = 2000)
+                ) {
+                    -it
+                }
+            },
+        ) { souldLaunchFirstScreen ->
+            if (souldLaunchFirstScreen) {
+                Screen1()
+            } else {
+                Screen2()
+            }
         }
+
+
     }
 }
 
