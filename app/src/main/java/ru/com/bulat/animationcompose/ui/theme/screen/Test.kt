@@ -2,9 +2,13 @@ package ru.com.bulat.animationcompose.ui.theme.screen
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -47,15 +51,19 @@ fun Test() {
             mutableStateOf(true)
         }
 
-        val size by animateDpAsState(
-            targetValue = if (isIncreased) 200.dp else 100.dp,
-            label = "",
-            animationSpec = tween(
-                durationMillis = 2000,
-                easing = FastOutSlowInEasing,
-                delayMillis = 1000
-            ),
+        val infiniteTransition = rememberInfiniteTransition()
 
+
+        val size by infiniteTransition.animateFloat(
+            initialValue = 200f,
+            targetValue = 100f,
+            animationSpec = infiniteRepeatable(
+                animation = tween(
+                    durationMillis = 2000,
+                ),
+                repeatMode = RepeatMode.Reverse
+            ),
+            label = "",
         )
 
         Button(
@@ -68,7 +76,7 @@ fun Test() {
         }
         AnimatedContainer(
             text = "Size",
-            size = size
+            size = size.dp
         )
 
         var isRounded by remember {
